@@ -135,7 +135,7 @@ important one to get right (see [`faq/features-faq.md`](faq/features-faq.md) for
   must never inflate a coverage figure.
 - **Hrz7** human-review / maker-checker console: every `requires_human_review` result is routed to
   it over the shared `review-kit` (rule R8); you wire your endpoint
-  (`HRZ_HUMAN_REVIEW_URL`), you do not re-implement the console.
+  (`HUMAN_REVIEW_URL`), you do not re-implement the console.
 - **Hrz5** observability plus immutable WORM audit: audit events and trace spans go to it.
 - **Hrz3** agent registry: this agent publishes its A2A card at
   `/.well-known/agent-card.json`; register it rather than inventing a discovery mechanism.

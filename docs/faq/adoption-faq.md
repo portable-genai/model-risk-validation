@@ -47,7 +47,7 @@ Three things, and none of them is code here:
 2. **The validation samples.** The battery scores what it is given; supplying the model's real
    samples, and vouching for them, is yours.
 3. **The endpoints.** An Rgc7 register at `RGC7_OBLIGATIONS_URL` for the proposed edges, and an
-   Hrz7 console at `HRZ_HUMAN_REVIEW_URL`. The managed router REFUSES to swallow an escalation
+   Hrz7 console at `HUMAN_REVIEW_URL`. The managed router REFUSES to swallow an escalation
    when the console is unset, so a fork cannot ship rule R8 unwired and green.
 
 ### How do I add a new outbound dependency (a new port)?
