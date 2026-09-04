@@ -1,4 +1,4 @@
-# DEMO: Model Risk Validation Copilot (Mrm1)
+# DEMO: Model Risk Validation Copilot (`model-risk-validation`)
 
 Everything here runs **offline**: no cloud project, no credentials, no API key, no browser
 engine, no bundler. That is the first thing to say out loud, because it is the claim the rest of

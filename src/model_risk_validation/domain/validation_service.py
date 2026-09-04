@@ -1,10 +1,10 @@
 """The deterministic validation service: compose the engines into one consequential result.
 
 The consequential outputs (the tier, every battery verdict, every breach and whether the run
-escalates) are pure stdlib and replayable; an LLM would only narrate them, never produce them.
-PII is redacted BEFORE anything is written to the audit sink (R1 / P-04), every result carries
-citations, and a consequential result sets ``requires_human_review`` and is ROUTED to Hrz7 by
-the caller (rule R8) rather than auto-executing.
+escalates) are pure stdlib and replayable; an LLM would only narrate them, never produce them. PII
+is redacted BEFORE anything is written to the audit sink (R1 / P-04), every result carries
+citations, and a consequential result sets ``requires_human_review`` and is ROUTED to
+human-review-console by the caller (rule R8) rather than auto-executing.
 
 Escalation is the default, not the exception: a run escalates when it lands at the highest
 materiality tier, when any required validation test failed or could not run, or when monitoring

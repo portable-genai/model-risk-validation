@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Evaluation gate for Model Risk Validation Copilot (Mrm1).
+"""Evaluation gate for Model Risk Validation Copilot (model-risk-validation).
 
 Two named layers via ``--mode`` (the scaffold is ``agent_eval_kit.eval_main``):
 
 * **smoke** (default) - the offline pre-merge check CI runs on every change: it drives the real
-  ``ValidationService`` against a golden set with SDK-free local adapters and scores metrics
-  against the dataset's OWN labels (an INDEPENDENT oracle), never the pipeline's own verdict.
-* **gate** - the promotion verdict from the shared Hrz4 authority (requires the ``gcp``
-  profile), via ``agent_eval_kit.PromotionGateClient``.
+  ``ValidationService`` against a golden set with SDK-free local adapters and scores metrics against
+  the dataset's OWN labels (an INDEPENDENT oracle), never the pipeline's own verdict. * **gate** -
+  the promotion verdict from the shared model-quality-gate authority (requires the ``gcp`` profile),
+  via ``agent_eval_kit.PromotionGateClient``.
 
 The smoke metrics: ``tier_accuracy`` scores the engine's assigned tier against the golden
 ``expected_tier`` a human labelled; ``pii_safety`` scores that no raw identifier survives into
@@ -57,7 +57,8 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_DATASET = _REPO_ROOT / "eval" / "datasets" / "golden_cases.jsonl"
 
 THRESHOLDS: dict[str, float] = {"tier_accuracy": 0.99, "pii_safety": 0.99}
-#: The registered Hrz4 metric bundle for this vertical (Hrz4 owns the metrics + thresholds).
+#: The registered model-quality-gate metric bundle for this vertical (model-quality-gate owns the
+#: metrics + thresholds).
 _BUNDLE = "model-risk-validation"
 
 
@@ -158,6 +159,6 @@ if __name__ == "__main__":
             smoke=run_smoke,
             gate=run_gate,
             default_dataset=DEFAULT_DATASET,
-            description="Offline / Hrz4 evaluation gate for Mrm1.",
+            description="Offline / model-quality-gate for model-risk-validation.",
         )
     )

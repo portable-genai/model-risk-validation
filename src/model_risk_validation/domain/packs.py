@@ -1,4 +1,5 @@
-"""Packs-as-data: per-model-class rule packs looked up by name (the Hrz4 bundle mechanism).
+"""Packs-as-data: per-model-class rule packs looked up by name (the model-quality-gate bundle
+mechanism).
 
 This module is the single home for the NUMBERS the deterministic engines apply, exactly as
 ``model-quality-gate``'s ``thresholds.py`` holds ``METRIC_BUNDLES``: a sibling asks for a

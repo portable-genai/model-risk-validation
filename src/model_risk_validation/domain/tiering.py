@@ -1,8 +1,8 @@
 """Deterministic model tiering (slice 2): materiality tier from declared dimensions.
 
 Pure, explicit and replayable. A model's four tiering dimensions are scored by its class's
-:class:`~.packs.TieringPack` (packs-as-data, the Hrz4 named-bundle shape), summed with the
-pack's weights, and banded into a :class:`~.taxonomy.Tier`. Two fail-closed rules make the tier
+:class:`~.packs.TieringPack` (packs-as-data, the model-quality-gate named-bundle shape), summed with
+the pack's weights, and banded into a :class:`~.taxonomy.Tier`. Two fail-closed rules make the tier
 trustworthy under incomplete data:
 
 * an undeclared or unparseable dimension is scored at :data:`~.taxonomy.FAILSAFE_LEVEL` (HIGH),

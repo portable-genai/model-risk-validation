@@ -1,4 +1,4 @@
-# Model Risk Validation Copilot (Mrm1) runtime configuration.
+# Model Risk Validation Copilot (model-risk-validation) runtime configuration.
 #
 # Loaded by `src/model_risk_validation/config.py`. Point at a different file with
 # MRM_SETTINGS; a path that is named but missing is a boot error, not
@@ -45,7 +45,7 @@ iap_audience: ${MRM_IAP_AUDIENCE:-}
 # deliberately distinct from this service's own inbound MRM_S2S_TOKEN.
 review_url: ${HUMAN_REVIEW_URL:-}
 
-# Slice 6: where the model-to-obligation feed posts proposed edges (the Rgc7 register). The
+# Slice 6: where the model-to-obligation feed posts proposed edges (the obligations-control-mapping register). The
 # managed profile REFUSES when this is empty, so a tiered model cannot silently fail to reach the
 # register. Empty is the offline default; the local buffer needs no URL.
 obligations_url: ${RGC7_OBLIGATIONS_URL:-}
@@ -71,7 +71,7 @@ adapters:
     onprem: model_risk_validation.adapters.onprem.review_router:OnPremReviewRouter
 
   # Tracing. Which BACKEND a deployed profile exports to is not a binding: the gcp
-  # adapter reads OTEL_EXPORTER_OTLP_ENDPOINT and sends OTLP to the Hrz5 collector when it
+  # adapter reads OTEL_EXPORTER_OTLP_ENDPOINT and sends OTLP to the agent-observability collector when it
   # is set, straight to Cloud Trace when it is not. Tracing is not essential to
   # correctness, so onprem is ABSENT rather than fatal, unlike the other placeholders.
   tracer:
@@ -79,7 +79,7 @@ adapters:
     gcp: model_risk_validation.adapters.gcp.tracer:CloudTracerAdapter
     onprem: model_risk_validation.adapters.onprem.tracer:OnPremTracerAdapter
 
-  # The promotion authority (Hrz4). The local adapter scores offline but REFUSES to
+  # The promotion authority (model-quality-gate). The local adapter scores offline but REFUSES to
   # promote: a promotion certified by a laptop with no quality service is certified by
   # nothing.
   evaluation:

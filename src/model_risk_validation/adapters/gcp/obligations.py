@@ -1,11 +1,12 @@
-"""Managed ObligationFeedPort: post proposed edges to the Rgc7 register over S2S.
+"""Managed ObligationFeedPort: post proposed edges to the obligations-control-mapping register over
+S2S.
 
-Serialises each edge with the kit's canonical JSON and posts it to the Rgc7 feed endpoint,
-authenticated as a trusted service caller. The register base URL comes from ``obligations_url``
-in ``config/settings.yaml``; the S2S credentials come from google-auth, imported LAZILY so the
-offline profiles construct with no cloud SDK. With nothing reachable it refuses (ImportError from
-the lazy import, or RuntimeError when unconfigured), never a silent success: a dropped proposal
-is a model that never reached the register.
+Serialises each edge with the kit's canonical JSON and posts it to the obligations-control-mapping
+feed endpoint, authenticated as a trusted service caller. The register base URL comes from
+``obligations_url`` in ``config/settings.yaml``; the S2S credentials come from google-auth, imported
+LAZILY so the offline profiles construct with no cloud SDK. With nothing reachable it refuses
+(ImportError from the lazy import, or RuntimeError when unconfigured), never a silent success: a
+dropped proposal is a model that never reached the register.
 """
 
 from __future__ import annotations
@@ -18,7 +19,9 @@ _SERVICE_ACTOR = "model-risk-validation"
 
 
 class CloudObligationFeed:
-    """Post proposed obligation edges to Rgc7 through an authenticated S2S session."""
+    """Post proposed obligation edges to obligations-control-mapping through an authenticated S2S
+    session.
+    """
 
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
@@ -27,7 +30,8 @@ class CloudObligationFeed:
         base_url = self._settings.obligations_url.strip()
         if not base_url:
             raise RuntimeError(
-                "obligations_url is not configured, so the Rgc7 feed cannot be honoured. Set "
+                "obligations_url is not configured, so the obligations-control-mapping feed cannot "
+                "be honoured. Set "
                 "RGC7_OBLIGATIONS_URL (config/settings.yaml obligations_url) to the register."
             )
         # Lazy import: google-auth is absent in the offline profiles and in the SDK-free gate.

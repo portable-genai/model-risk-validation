@@ -7,7 +7,7 @@ here. Read it first. This file carries only what is specific to this one.
 
 ## What this is
 
-Model Risk Validation Copilot (Mrm1): Quantitative model-risk inventory, tiering, validation battery and drafted documentation.
+Model Risk Validation Copilot (`model-risk-validation`): Quantitative model-risk inventory, tiering, validation battery and drafted documentation.
 Rendered from `hex-service-template`, so it starts at reference parity rather than converging
 toward it. Package `model_risk_validation`, environment prefix
 `MRM`, region `asia-southeast1`.

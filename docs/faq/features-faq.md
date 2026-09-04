@@ -20,7 +20,7 @@ steps plus a feed:
 4. **Ongoing monitoring** (`domain/monitoring.py`): observed metric values are classified on a
    severity ladder (clear, amber, red) against the tier's `MonitoringPack`, and the case severity
    is the worst across metrics.
-5. **The Rgc7 feed** (`domain/obligations.py`): typed graph edges saying "this model answers this
+5. **The `obligations-control-mapping` feed** (`domain/obligations.py`): typed graph edges saying "this model answers this
    model-risk obligation", proposed into the register.
 
 `domain/validation_service.py` composes them into one consequential result.
@@ -54,10 +54,10 @@ that is not there.
 - **It will not pass a test it could not run.**
 - **It will not trust an extracted attribute over the record.**
 - **It will not auto-execute a consequential result.** A tier change, a failing battery or a
-  breach sets `requires_human_review` and is ROUTED to the Hrz7 console in the same call that
+  breach sets `requires_human_review` and is ROUTED to the `human-review-console` in the same call that
   produced it (rule R8).
-- **It will not inflate an Rgc7 coverage figure.** Every edge it proposes is in the `PROPOSED`
-  state, and Rgc7 counts only human-accepted edges.
+- **It will not inflate an `obligations-control-mapping` coverage figure.** Every edge it proposes is in the `PROPOSED`
+  state, and `obligations-control-mapping` counts only human-accepted edges.
 
 ### Which surfaces expose it?
 
@@ -70,14 +70,14 @@ routes escalations in the same call, so rule R8 does not hold on some surfaces a
 
 | Concern | Owner | How this repo touches it |
 |---|---|---|
-| Quantitative, non-AI model risk: inventory, tiering, battery, monitoring | **this repo (Mrm1)** | it IS the system of record for that population. |
-| AI and agent model risk, and the promotion gate | **Hrz4** AI quality and model risk | a separate population with a separate inventory. Two inventories for the same model is the failure the boundary exists to prevent. `eval/run_eval.py --mode gate` still asks Hrz4 about THIS service's own promotion. |
-| The obligation to control graph | **Rgc7** obligations and control mapping | this repo PROPOSES typed edges into it (`RGC7_OBLIGATIONS_URL`), always in the `PROPOSED` state. It does not keep a register. |
-| Agent discovery and entitlements | **Hrz3** agent registry | this agent publishes a card; the registry owns discovery. |
-| Traces and the immutable audit sink | **Hrz5** agent observability | `AuditSinkPort` and `ObservabilityTracerPort`. |
-| Human review and maker-checker | **Hrz7** human review console | `ReviewRouterPort` over the shared `review-kit`. This repo produces escalations; it does not render a queue. |
-| Prompt-injection defence and output filtering | **Hrz1** agent guardrail gateway | not wired, and nothing to wire it to yet: no model call happens here. |
-| Grounded retrieval over an enterprise corpus | **Hrz2** enterprise knowledge base | not wired; this service reasons over declared records and supplied samples. |
+| Quantitative, non-AI model risk: inventory, tiering, battery, monitoring | **this repo (`model-risk-validation`)** | it IS the system of record for that population. |
+| AI and agent model risk, and the promotion gate | `model-quality-gate` AI quality and model risk | a separate population with a separate inventory. Two inventories for the same model is the failure the boundary exists to prevent. `eval/run_eval.py --mode gate` still asks `model-quality-gate` about THIS service's own promotion. |
+| The obligation to control graph | `obligations-control-mapping` and control mapping | this repo PROPOSES typed edges into it (`RGC7_OBLIGATIONS_URL`), always in the `PROPOSED` state. It does not keep a register. |
+| Agent discovery and entitlements | `agent-registry` | this agent publishes a card; the registry owns discovery. |
+| Traces and the immutable audit sink | `agent-observability` agent observability | `AuditSinkPort` and `ObservabilityTracerPort`. |
+| Human review and maker-checker | `human-review-console` human review console | `ReviewRouterPort` over the shared `review-kit`. This repo produces escalations; it does not render a queue. |
+| Prompt-injection defence and output filtering | `agent-guardrail-gateway` agent guardrail gateway | not wired, and nothing to wire it to yet: no model call happens here. |
+| Grounded retrieval over an enterprise corpus | `enterprise-knowledge-base` | not wired; this service reasons over declared records and supplied samples. |
 
 ### Can I demo it without a cloud project?
 
@@ -92,4 +92,4 @@ The honest list is [`../practices-audit.md`](../practices-audit.md) and the `TOD
 rows in [`../../COMPLIANCE.md`](../../COMPLIANCE.md). The largest items: no drafting model is
 wired (the contract exists, the seam does not), the model-documentation extraction port the
 inventory docstring anticipates is not defined, and this repo's metric bundle is not yet
-registered with Hrz4 so `--mode gate` has no authority to ask.
+registered with `model-quality-gate` so `--mode gate` has no authority to ask.

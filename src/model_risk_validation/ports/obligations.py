@@ -1,11 +1,11 @@
-"""ObligationFeedPort: the seam to the Rgc7 obligations register graph.
+"""ObligationFeedPort: the seam to the obligations-control-mapping register graph.
 
-Mrm1 PROPOSES model-to-obligation edges into Rgc7 (slice 6). The edges are typed by
-``obligation-register-kit`` (never copied), built in the pure domain; the adapters carry them to
-the register. The local adapter buffers them, the managed adapter posts to Rgc7 over S2S, and the
-on-premises placeholder refuses. A feed that silently dropped the edges would let a tiered model
-never reach the register, so the local adapter is a real buffer and the managed one fails closed
-when Rgc7 is unreachable.
+model-risk-validation PROPOSES model-to-obligation edges into obligations-control-mapping (slice 6).
+The edges are typed by ``obligation-register-kit`` (never copied), built in the pure domain; the
+adapters carry them to the register. The local adapter buffers them, the managed adapter posts to
+obligations-control-mapping over S2S, and the on-premises placeholder refuses. A feed that silently
+dropped the edges would let a tiered model never reach the register, so the local adapter is a real
+buffer and the managed one fails closed when obligations-control-mapping is unreachable.
 """
 
 from __future__ import annotations
