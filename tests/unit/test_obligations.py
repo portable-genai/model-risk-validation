@@ -1,8 +1,9 @@
 """Slice 6: the model-to-obligation feed edges are typed by the kit and complete per model.
 
-Freezes the contract Mrm1 emits against Rgc7: the edges are ``OBLIGATION_TO_CONTROL``, PROPOSED
-(never auto-accepted, so coverage in Rgc7 rests on human acceptance), one per model-risk
-obligation (export completeness), and the model is the control vertex.
+Freezes the contract model-risk-validation emits against obligations-control-mapping: the edges are
+``OBLIGATION_TO_CONTROL``, PROPOSED (never auto-accepted, so coverage in obligations-control-mapping
+rests on human acceptance), one per model-risk obligation (export completeness), and the model is
+the control vertex.
 """
 
 from __future__ import annotations
@@ -30,7 +31,9 @@ def test_the_edges_propose_the_model_as_a_control_answering_each_obligation() ->
 
 
 def test_the_edges_are_proposed_not_accepted() -> None:
-    """A machine proposal must never count toward Rgc7 coverage until a human accepts it."""
+    """A machine proposal must never count toward obligations-control-mapping coverage until a human
+    accepts it.
+    """
     for edge in model_obligation_edges(sample_cases.escalating_outcome()):
         assert edge.status is EdgeStatus.PROPOSED
         assert edge.counts_for_coverage is False

@@ -11,7 +11,7 @@ script), the `MRM_` env prefix (including the bare token that
 `infra/terraform/render.tf.json` carries, so Terraform sets the same variable names on the
 service), the Terraform `name_prefix` resource stem (`mrm1-svc`) and the distribution / git id in
 one pass. Preview with `--dry-run`, apply with `--yes`, then recreate the venv, `make install`,
-and run `make gate`. The catalog id `Mrm1` is left alone unless you pass `--catalog-id`, so a fork
+and run `make gate`. The catalog id `model-risk-validation` is left alone unless you pass `--catalog-id`, so a fork
 stays traceable to the entry it descends from. The script does the mechanical rename; the human
 decisions (region, IdP, the taxonomy, the packs, the eval golden set) are the checklist in
 `ADOPTING.md`.
@@ -29,7 +29,7 @@ were told to expect.
 ### Can I retune the policy without touching engine code?
 
 Mostly yes, and this is the repo's best-kept property. `domain/packs.py` is packs-as-data in the
-same named-bundle shape Hrz4 uses: `TIERING_PACKS` holds how each model class scores the four
+same named-bundle shape `model-quality-gate` uses: `TIERING_PACKS` holds how each model class scores the four
 dimensions and where the bands fall, the `BatteryPack` holds which statistics are required and at
 what bar, and the `MonitoringPack` holds the severity ladder. A policy change is a data edit
 there, not a code edit in an engine.
@@ -46,8 +46,8 @@ Three things, and none of them is code here:
 1. **The model inventory.** Real records, with the four tiering dimensions declared.
 2. **The validation samples.** The battery scores what it is given; supplying the model's real
    samples, and vouching for them, is yours.
-3. **The endpoints.** An Rgc7 register at `RGC7_OBLIGATIONS_URL` for the proposed edges, and an
-   Hrz7 console at `HUMAN_REVIEW_URL`. The managed router REFUSES to swallow an escalation
+3. **The endpoints.** An `obligations-control-mapping` register at `RGC7_OBLIGATIONS_URL` for the proposed edges, and an
+   `human-review-console` at `HUMAN_REVIEW_URL`. The managed router REFUSES to swallow an escalation
    when the console is unset, so a fork cannot ship rule R8 unwired and green.
 
 ### How do I add a new outbound dependency (a new port)?
@@ -98,6 +98,6 @@ the step keys and the `facts` dict the checks read.
 
 [`../practices-audit.md`](../practices-audit.md) carries the per-check verdict and the work list.
 The largest items before production: the drafting seam and its controls, the model-documentation
-extraction port, and registering this repo's metric bundle with Hrz4 so `eval/run_eval.py --mode
+extraction port, and registering this repo's metric bundle with `model-quality-gate` so `eval/run_eval.py --mode
 gate` has an authority to ask. The Terraform stack is written, validated and tested against a
 mocked provider; it has never been applied.

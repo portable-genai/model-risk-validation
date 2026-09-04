@@ -1,6 +1,6 @@
 # Adopting this repo as your base
 
-This repository (Mrm1, the Model Risk Validation Copilot) is a **common base** that a bank or
+This repository (`model-risk-validation`, the Model Risk Validation Copilot) is a **common base** that a bank or
 other regulated institution forks to build its own **second-line model-risk function for
 quantitative, non-AI models**: the inventory, the materiality tiering, the validation battery, the
 ongoing performance monitoring, and the documentation draft that comes out of them. It ships a
@@ -33,7 +33,7 @@ a physical module split with an enforced dependency direction (practices-audit c
 | **Vertical (the nouns and the flow)** | `domain/taxonomy.py` (model classes, tiers, levels), `domain/models.py`, `domain/inventory.py`, `domain/tiering.py`, `domain/battery/runner.py`, `domain/monitoring.py`, `domain/prompts.py`, `domain/obligations.py`, the fixtures and the eval golden set | rewrite for your standard |
 
 If your product is another *tier then test then monitor* second-line engine, the hexagon, the
-three profiles, the packs-as-data mechanism, the eval gate and the Hrz7 review routing transfer
+three profiles, the packs-as-data mechanism, the eval gate and the `human-review-console` review routing transfer
 directly; you replace the taxonomy and the packs.
 
 ## 2. Core-vs-adopter-owned files (so upstream merges stay mechanical)
@@ -77,7 +77,7 @@ make gate
 `--dist` defaults to the `--resource` value; pass it explicitly when your git id differs from your
 resource stem. `--resource` is validated against the same regex the Terraform `name_prefix`
 variable enforces, so a stem the stack would refuse fails here instead of at plan time. Add
-`--include-docs` to sweep Markdown prose too. The catalog id `Mrm1` is left alone unless you pass
+`--include-docs` to sweep Markdown prose too. The catalog id `model-risk-validation` is left alone unless you pass
 `--catalog-id`, so a fork stays traceable to the entry it descends from. The script deliberately
 does NOT touch the human decisions below.
 
@@ -97,7 +97,7 @@ does NOT touch the human decisions below.
    declared in. Every member is a `LenientStrEnum`, so a value from a future release does not
    crash the reader and you extend the vocabulary without editing an engine.
 4. **The packs, which are the policy.** `domain/packs.py` is the single home for the numbers, in
-   the same named-bundle shape Hrz4 uses: per model class, how the four tiering dimensions score
+   the same named-bundle shape `model-quality-gate` uses: per model class, how the four tiering dimensions score
    and where the bands fall (`TIERING_PACKS`); which statistics the battery requires and at what
    bar (`BatteryPack`); and the monitoring severity ladder (`MonitoringPack`). Your model-risk
    policy owner sets these. Keep the two fail-closed rules the tiering engine encodes: an
@@ -125,22 +125,22 @@ does NOT touch the human decisions below.
 This repo is one system in a catalog of composable GRC systems, and its scope boundary is the
 important one to get right (see [`faq/features-faq.md`](faq/features-faq.md) for the full map):
 
-- **Hrz4** AI quality and model risk owns **AI and agent** model risk and the promotion gate. This
+- `model-quality-gate` AI quality and model risk owns **AI and agent** model risk and the promotion gate. This
   repo owns **quantitative, non-AI** models. Two inventories for the same model is the failure
   both systems exist to prevent, so decide which side of that line each model sits on and record
-  it once. `eval/run_eval.py --mode gate` still asks Hrz4 about THIS service's own promotion.
-- **Rgc7** obligations and control mapping owns the obligation graph. `domain/obligations.py`
+  it once. `eval/run_eval.py --mode gate` still asks `model-quality-gate` about THIS service's own promotion.
+- `obligations-control-mapping` and control mapping owns the obligation graph. `domain/obligations.py`
   builds the typed edges this repo PROPOSES into it (`RGC7_OBLIGATIONS_URL`), always in the
-  `PROPOSED` state, because Rgc7 counts only human-accepted edges. A machine proposal from here
+  `PROPOSED` state, because `obligations-control-mapping` counts only human-accepted edges. A machine proposal from here
   must never inflate a coverage figure.
-- **Hrz7** human-review / maker-checker console: every `requires_human_review` result is routed to
+- `human-review-console` human-review / maker-checker console: every `requires_human_review` result is routed to
   it over the shared `review-kit` (rule R8); you wire your endpoint
   (`HUMAN_REVIEW_URL`), you do not re-implement the console.
-- **Hrz5** observability plus immutable WORM audit: audit events and trace spans go to it.
-- **Hrz3** agent registry: this agent publishes its A2A card at
+- `agent-observability` plus immutable WORM audit: audit events and trace spans go to it.
+- `agent-registry`: this agent publishes its A2A card at
   `/.well-known/agent-card.json`; register it rather than inventing a discovery mechanism.
 
-The guardrail gateway (Hrz1) and the enterprise knowledge base (Hrz2) are **not** integrated, and
+The guardrail gateway (`agent-guardrail-gateway`) and the enterprise knowledge base (`enterprise-knowledge-base`) are **not** integrated, and
 today there is nothing to integrate them with: no model call happens in this service at all. See
 [`model-card.md`](model-card.md).
 
@@ -153,11 +153,11 @@ today there is nothing to integrate them with: no model call happens in this ser
 - [ ] Replaced the taxonomy with your model classes, tiers and level vocabulary.
 - [ ] Owned every pack in `domain/packs.py` with your model-risk policy owner, keeping the
       fail-closed tiering rules and the missing-input-is-a-gap rule.
-- [ ] Agreed the Hrz4 boundary: which models are AI (theirs) and which are quantitative (yours).
+- [ ] Agreed the `model-quality-gate` boundary: which models are AI (theirs) and which are quantitative (yours).
 - [ ] Replaced every synthetic fixture and re-pinned the battery reference statistics.
 - [ ] Rebuilt the eval golden set for your standard.
 - [ ] Reviewed the deploy posture (Dockerfile, Terraform, `retention_days`, bind address).
-- [ ] Wired your Hrz7 review endpoint and your Rgc7 register endpoint.
+- [ ] Wired your `human-review-console` review endpoint and your `obligations-control-mapping` register endpoint.
 - [ ] Read [`model-card.md`](model-card.md) before wiring any drafting model, and met its
       conditions first.
 - [ ] Recorded your baseline upstream tag so you can take future fixes.

@@ -5,10 +5,10 @@ service's own name is deliberately not substituted into this docstring: a render
 length depends on ``friendly_name`` would fail the repo's own format check for no reason but the
 length of its name.
 
-:class:`ValidationOutcome` is the consequential result the whole spine carries: the API returns
-it, the CLI prints it, the agent tool wraps it, and rule R8 routes it to Hrz7 when it escalates.
-It composes the per-engine reports (tier, battery, monitoring) and exposes the flat fields the
-review payload and the API schema read.
+:class:`ValidationOutcome` is the consequential result the whole spine carries: the API returns it,
+the CLI prints it, the agent tool wraps it, and rule R8 routes it to human-review-console when it
+escalates. It composes the per-engine reports (tier, battery, monitoring) and exposes the flat
+fields the review payload and the API schema read.
 """
 
 from __future__ import annotations

@@ -1,4 +1,4 @@
-# Model card: Model Risk Validation Copilot (Mrm1)
+# Model card: Model Risk Validation Copilot (`model-risk-validation`)
 
 This is a STARTER model card, and its headline is unusual: **this system has no model in its
 path.** It is recorded here explicitly rather than left to be inferred, because a repo whose
@@ -18,7 +18,7 @@ parsed. Every consequential output is pure stdlib:
 | Each battery statistic and its pass or fail | `domain/battery/stats.py` and `domain/battery/runner.py` |
 | Each monitoring breach and the case severity | `domain/monitoring.py` over the tier's `MonitoringPack` |
 | Whether the run escalates | `domain/validation_service.py` |
-| The edges proposed into the Rgc7 register | `domain/obligations.py`, always in the `PROPOSED` state |
+| The edges proposed into the `obligations-control-mapping` register | `domain/obligations.py`, always in the `PROPOSED` state |
 
 The statistics deliberately use no numpy and no scipy, and they raise `StatInputError` rather than
 returning a plausible number on an input they cannot honestly score. A missing input is a named
@@ -52,10 +52,10 @@ a design commitment, not as a control that is running.
    ids are regional and an unavailable one fails at call time rather than at boot.
 4. **Budget, rate limit and a kill switch** (P-10, P-11): a per-tenant token budget, a request
    rate limit, and a switch that forces deterministic-only operation.
-5. **Prompt-injection screening** (rule R1): bind the Hrz1 guardrail gateway before any untrusted
+5. **Prompt-injection screening** (rule R1): bind the `agent-guardrail-gateway` before any untrusted
    free text (a model owner's narrative, an extracted document section) reaches the fact block,
    and fail closed to deterministic-only when the screen is unavailable.
-6. **Evaluation of the live model**: add a managed-profile eval run registered with the Hrz4
+6. **Evaluation of the live model**: add a managed-profile eval run registered with the `model-quality-gate`
    promotion gate (P-08, rule R5) that scores draft groundedness against the same golden cases.
 7. **A reasoning trace in the audit record** (P-07): today the audit record carries the engine's
    figures; a drafted document needs its prompt and reply pair recorded alongside them.

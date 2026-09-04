@@ -88,8 +88,8 @@ numpy, no scipy, so the statistical core adds no third-party attack surface at a
   forwards the assertion without parsing or trusting a parsed copy.
 - **The sample feed's integrity.** Whoever supplies the validation samples is trusted to supply
   the model's real ones; this service scores what it is given.
-- **The review queue.** Owned by Hrz7; this repo produces escalations and routes them.
+- **The review queue.** Owned by `human-review-console`; this repo produces escalations and routes them.
 - **Network egress control.** VPC-SC governs access to Google APIs across perimeters, not
-  arbitrary internet egress. The private-egress rule that lets this service reach the Rgc7 register
-  and the Hrz7 console and nothing else is an adopter network decision, called out in
+  arbitrary internet egress. The private-egress rule that lets this service reach the `obligations-control-mapping` register
+  and the `human-review-console` and nothing else is an adopter network decision, called out in
   `COMPLIANCE.md` P-01.

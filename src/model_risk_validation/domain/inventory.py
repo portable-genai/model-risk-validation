@@ -1,12 +1,12 @@
 """Model inventory: the record shape and the deterministic candidate-validation engine (slice 2).
 
-Mrm1 OWNS the inventory of quantitative (non-AI) models. A record declares the model's class,
-owner and the four tiering dimensions; legacy model documentation may also arrive extracted
-(through ``ports/model_docs.py``) as CANDIDATE attributes, which this engine validates against
-the record rather than trusting. A candidate that agrees confirms; one that conflicts is a
+model-risk-validation OWNS the inventory of quantitative (non-AI) models. A record declares the
+model's class, owner and the four tiering dimensions; legacy model documentation may also arrive
+extracted (through ``ports/model_docs.py``) as CANDIDATE attributes, which this engine validates
+against the record rather than trusting. A candidate that agrees confirms; one that conflicts is a
 finding for a human; one that fills an undeclared dimension is adopted but flagged as
-document-sourced. The engine is pure: same record plus same candidates, same result, and it
-NEVER invents a value, because a fabricated attribute would flow straight into the tier.
+document-sourced. The engine is pure: same record plus same candidates, same result, and it NEVER
+invents a value, because a fabricated attribute would flow straight into the tier.
 """
 
 from __future__ import annotations

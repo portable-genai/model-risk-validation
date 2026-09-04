@@ -1,10 +1,10 @@
 """Ongoing performance monitoring and breach handling (slice 4).
 
 Deterministic breach classification over the latest observed metric values, against the tier's
-:class:`~.packs.MonitoringPack`. Each metric is classified on a severity LADDER (clear, amber,
-red), red escalates a further step at TIER_1 (a red breach on a tier-1 model is a critical,
-dual-control event), and the case severity is the WORST across metrics. Every breach sets the
-result to require human review and is routed to Hrz7 under rule R8 by the caller: a breach is a
+:class:`~.packs.MonitoringPack`. Each metric is classified on a severity LADDER (clear, amber, red),
+red escalates a further step at TIER_1 (a red breach on a tier-1 model is a critical, dual-control
+event), and the case severity is the WORST across metrics. Every breach sets the result to require
+human review and is routed to human-review-console under rule R8 by the caller: a breach is a
 consequential second-line outcome, never an auto-executed one.
 
 The engine owns the classification. A metric the pack watches but the series does not supply is a

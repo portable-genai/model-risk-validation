@@ -1,9 +1,9 @@
-"""Local ObligationFeedPort: buffer proposed edges in memory (no live Rgc7).
+"""Local ObligationFeedPort: buffer proposed edges in memory (no live obligations-control-mapping).
 
 Exercises the slice-6 feed path offline. Each edge is buffered with a producer-owned reference
 so the gate, the tests and the demo can assert every tiered model reached the feed, without a
 running register. The buffer is deliberately not a no-op: a silent feed would let a model never
-reach Rgc7 with a green gate.
+reach obligations-control-mapping with a green gate.
 """
 
 from __future__ import annotations

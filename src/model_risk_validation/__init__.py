@@ -1,4 +1,4 @@
-"""Model Risk Validation Copilot (Mrm1).
+"""Model Risk Validation Copilot (model-risk-validation).
 
 Quantitative model-risk inventory, tiering, validation battery and drafted documentation.
 

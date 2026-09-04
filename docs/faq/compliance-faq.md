@@ -30,16 +30,16 @@ A human, always, for anything consequential. `requires_human_review` and the cal
 `ReviewRouterPort.route` are one act, not a flag plus an intention: the API, the CLI and the agent
 tool all route in the same call that produced the result, and `tests/unit/test_review_routing.py`
 asserts the routing rather than the flag. Under the managed profile the router REFUSES when no
-console is configured, so a deployment cannot swallow an escalation silently. The proposed Rgc7
-edges follow the same discipline: they are `PROPOSED`, and coverage in Rgc7 counts only edges a
+console is configured, so a deployment cannot swallow an escalation silently. The proposed `obligations-control-mapping`
+edges follow the same discipline: they are `PROPOSED`, and coverage in `obligations-control-mapping` counts only edges a
 human accepted.
 
-### Where does this stop and Hrz4 start?
+### Where does this stop and `model-quality-gate` start?
 
-This repo governs **quantitative, non-AI** models. Hrz4, the AI-quality and model-risk platform,
+This repo governs **quantitative, non-AI** models. `model-quality-gate`, the AI-quality and model-risk platform,
 governs **AI and agent** models and owns the promotion gate. Keeping one model in both inventories
 is the failure the boundary exists to prevent, so the population split has to be an explicit,
-recorded decision in your model-risk policy rather than an implementation detail. Note that Hrz4
+recorded decision in your model-risk policy rather than an implementation detail. Note that `model-quality-gate`
 is also this service's own promotion authority, which is a separate relationship.
 
 ### Where does the data live, and is residency enforced or just documented?
@@ -95,6 +95,6 @@ unexamined.
 
 The `Partial` and `TODO (repo owner)` rows in `COMPLIANCE.md`, each of which names exactly what is
 missing. The ones that need a risk acceptance if you go live without them: rule R5 and P-08 (the
-Hrz4 metric bundle), P-10 (timeouts, circuit breaker and a documented kill switch for the outbound
+`model-quality-gate` metric bundle), P-10 (timeouts, circuit breaker and a documented kill switch for the outbound
 register and console calls), and P-01's private-egress rule, which depends on your own network
 rather than on this repo.

@@ -27,7 +27,9 @@ def main(argv: list[str] | None = None) -> int:
     for dimension in DIMENSIONS:
         validate_cmd.add_argument(f"--{dimension}", choices=["low", "medium", "high"], default=None)
     validate_cmd.add_argument("--actor", default="cli-user@bank.example")
-    validate_cmd.add_argument("--tenant", default="", help="Tenant partition asserted to Hrz7.")
+    validate_cmd.add_argument(
+        "--tenant", default="", help="Tenant partition asserted to human-review-console."
+    )
 
     args = parser.parse_args(argv)
     container = build_container()
@@ -54,10 +56,11 @@ def main(argv: list[str] | None = None) -> int:
             # only printed the flag would be a second place for an escalation to stop.
             ref = container.review_router.route(result, maker=args.actor, tenant=args.tenant)
             print(f"  routed to human review: {ref}")
-        # Slice 6: propose the model-to-obligation edges into the Rgc7 register (every tiered
+        # Slice 6: propose the model-to-obligation edges into the obligations-control-mapping
+        # register (every tiered
         # model yields records, so the register never silently misses a model).
         feed_refs = container.obligations.emit(model_obligation_edges(result), actor=args.actor)
-        print(f"  obligation edges proposed to Rgc7: {len(feed_refs)}")
+        print(f"  obligation edges proposed to obligations-control-mapping: {len(feed_refs)}")
         return 0
 
     return 2  # pragma: no cover - argparse requires a subcommand

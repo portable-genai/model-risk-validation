@@ -18,7 +18,7 @@ stdlib, so the consequential part of this service depends on nothing but Python.
 | Profile | What it is | Who it is for |
 |---|---|---|
 | `local` | SDK-free offline stack: seeded dev personas, a hash-chained SQLite WORM audit log, in-process obligation and review sinks | dev, test, CI, and the offline demo |
-| `gcp` | the managed stack: IAP identity, Cloud Logging WORM, HTTP clients to the Rgc7 register and the Hrz7 console | a managed deployment |
+| `gcp` | the managed stack: IAP identity, Cloud Logging WORM, HTTP clients to the `obligations-control-mapping` register and the `human-review-console` | a managed deployment |
 | `onprem` | fail-fast `NotImplementedError` placeholders | the sovereign exit: a client binds its own in-country implementations here |
 
 `MRM_PROFILE` selects the family. Unset means the offline adapters bind but nobody chose them,
