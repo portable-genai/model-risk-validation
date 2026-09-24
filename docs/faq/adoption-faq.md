@@ -47,8 +47,9 @@ Three things, and none of them is code here:
 2. **The validation samples.** The battery scores what it is given; supplying the model's real
    samples, and vouching for them, is yours.
 3. **The endpoints.** An `obligations-control-mapping` register at `RGC7_OBLIGATIONS_URL` for the proposed edges, and an
-   `human-review-console` at `HUMAN_REVIEW_URL`. The managed router REFUSES to swallow an escalation
-   when the console is unset, so a fork cannot ship rule R8 unwired and green.
+   `human-review-console` at `HUMAN_REVIEW_URL`. The managed profile REFUSES TO BOOT with routing
+   on and the console unset, so a fork cannot ship rule R8 unwired and green
+   (`MRM_REVIEW_ROUTING=off` is the stated way to run without a console).
 
 ### How do I add a new outbound dependency (a new port)?
 

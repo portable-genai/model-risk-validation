@@ -29,8 +29,11 @@ able to move off its figure.
 A human, always, for anything consequential. `requires_human_review` and the call to
 `ReviewRouterPort.route` are one act, not a flag plus an intention: the API, the CLI and the agent
 tool all route in the same call that produced the result, and `tests/unit/test_review_routing.py`
-asserts the routing rather than the flag. Under the managed profile the router REFUSES when no
-console is configured, so a deployment cannot swallow an escalation silently. The proposed `obligations-control-mapping`
+asserts the routing rather than the flag. Under the managed profile the service REFUSES TO BOOT with
+routing on and no console configured, and every response says what happened to its hand-off
+(`review_routing`: routed, failed, off or not_required), so a deployment cannot swallow an
+escalation silently. Switching routing off (`MRM_REVIEW_ROUTING=off`) is a stated posture the
+service logs at startup. The proposed `obligations-control-mapping`
 edges follow the same discipline: they are `PROPOSED`, and coverage in `obligations-control-mapping` counts only edges a
 human accepted.
 
