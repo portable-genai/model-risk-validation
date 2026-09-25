@@ -28,6 +28,48 @@ function reviewRoutingOf(body: string): string | undefined {
   }
 }
 
+// The model classes `POST /v1/validate` accepts, mirroring `ModelClass` in
+// src/model_risk_validation/domain/taxonomy.py. An unknown class fails closed on the server.
+const MODEL_CLASSES = ["scorecard", "ifrs9_cecl", "irb", "alm", "pricing", "actuarial", "aml_scenario"];
+
+// The optional structured fields of `ValidationRequestModel`, prefilled for a FICTIONAL
+// medium-materiality scorecard so the battery computes every metric its pack requires. Delete a
+// key to send the service's default: an undeclared dimension fails closed to high, and a metric
+// whose sample is absent is reported as a gap.
+const DEFAULT_EVIDENCE = {
+  dimensions: {
+    materiality: "medium",
+    complexity: "medium",
+    usage: "medium",
+    regulatory_exposure: "medium",
+  },
+  sample: {
+    scores: [0.91, 0.84, 0.77, 0.62, 0.55, 0.41, 0.33, 0.27, 0.18, 0.09],
+    labels: [1, 1, 1, 0, 1, 0, 0, 0, 0, 0],
+    predicted: [0.88, 0.9, 0.86, 0.12, 0.9, 0.1, 0.14, 0.1, 0.12, 0.1],
+    outcomes: [1, 1, 1, 0, 1, 0, 0, 0, 0, 0],
+    psi_expected: [0.2, 0.3, 0.3, 0.2],
+    psi_actual: [0.22, 0.29, 0.28, 0.21],
+  },
+  observed: { psi: 0.06, auc: 0.81 },
+};
+
+interface Evidence {
+  dimensions?: Record<string, string>;
+  sample?: Record<string, number[]>;
+  observed?: Record<string, number>;
+}
+
+// The textarea is free text, so it is parsed before anything is sent: a typo is reported here
+// rather than posted as a request the service would reject.
+function parseEvidence(text: string): Evidence {
+  const parsed: unknown = JSON.parse(text);
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new Error("the evidence must be a JSON object with dimensions, sample and observed");
+  }
+  return parsed as Evidence;
+}
+
 interface CardSummary {
   name?: string;
   description?: string;
@@ -36,8 +78,11 @@ interface CardSummary {
 
 export default function Home() {
   const [persona, setPersona] = useState(PERSONAS[0]);
-  const [subject, setSubject] = useState("Acme Holdings (FICTIONAL)");
-  const [text, setText] = useState("urgent data breach reported by the branch");
+  const [modelId, setModelId] = useState("M-SCR-021");
+  const [name, setName] = useState("Northwind retail application scorecard (FICTIONAL)");
+  const [modelClass, setModelClass] = useState("scorecard");
+  const [owner, setOwner] = useState("model.owner@bank.example");
+  const [evidenceText, setEvidenceText] = useState(JSON.stringify(DEFAULT_EVIDENCE, null, 2));
   const [result, setResult] = useState("");
   const [failed, setFailed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -59,13 +104,29 @@ export default function Home() {
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    let evidence: Evidence;
+    try {
+      evidence = parseEvidence(evidenceText);
+    } catch (error) {
+      setFailed(true);
+      setResult("Could not read the evidence JSON: " + String(error));
+      return;
+    }
     setBusy(true);
     setFailed(false);
     try {
-      const response = await fetch(API + "/v1/triage", {
+      const response = await fetch(API + "/v1/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json", "X-Dev-Persona": persona },
-        body: JSON.stringify({ subject, text }),
+        body: JSON.stringify({
+          model_id: modelId,
+          name,
+          model_class: modelClass,
+          owner,
+          dimensions: evidence.dimensions,
+          sample: evidence.sample,
+          observed: evidence.observed,
+        }),
       });
       const body = await response.text();
       setFailed(!response.ok);
@@ -83,7 +144,7 @@ export default function Home() {
       <h1>{card?.name ?? "Agent console"}</h1>
       <p className="sub">
         {card?.description ??
-          "Submit a case. The decision is deterministic, cited, and routed to a human reviewer when it escalates."}
+          "Validate a model. The tier and battery are deterministic, cited, and routed to a human reviewer when they escalate."}
       </p>
 
       <form onSubmit={submit}>
@@ -102,17 +163,40 @@ export default function Home() {
         </fieldset>
 
         <fieldset>
-          <legend>The case</legend>
+          <legend>The model</legend>
           <label>
-            Subject
-            <input value={subject} onChange={(event) => setSubject(event.target.value)} />
+            Model id
+            <input value={modelId} onChange={(event) => setModelId(event.target.value)} />
           </label>
           <label>
-            Description
-            <textarea value={text} onChange={(event) => setText(event.target.value)} />
+            Name
+            <input value={name} onChange={(event) => setName(event.target.value)} />
           </label>
-          <button type="submit" disabled={busy}>
-            {busy ? "Working" : "Triage this case"}
+          <label>
+            Model class
+            <select value={modelClass} onChange={(event) => setModelClass(event.target.value)}>
+              {MODEL_CLASSES.map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Owner
+            <input value={owner} onChange={(event) => setOwner(event.target.value)} />
+          </label>
+          <label>
+            Evidence (JSON: tiering dimensions, validation sample, monitoring readings)
+            <textarea
+              rows={18}
+              spellCheck={false}
+              value={evidenceText}
+              onChange={(event) => setEvidenceText(event.target.value)}
+            />
+          </label>
+          <button type="submit" disabled={busy || !modelId || !name || !owner}>
+            {busy ? "Working" : "Validate this model"}
           </button>
         </fieldset>
       </form>
